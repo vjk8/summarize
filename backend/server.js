@@ -9,13 +9,6 @@ const port = 3000;
 app.use(express.static(path.join(__dirname, "../frontend")));
 app.use(express.json());
 
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'POST');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    next();
-});
-
 async function getSummary(text) {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
@@ -25,6 +18,7 @@ async function getSummary(text) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+            // either change max tokens or do pruning so model does not store entire message history
             max_tokens: 500,
             model: 'claude-sonnet-4-20250514',
             system: "You are a concise summarization assistant. Always produce short, accurate summaries. Talk like you are explaining to someone who is not familiar with the paper.",
