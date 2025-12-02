@@ -1,5 +1,4 @@
 import Database from "better-sqlite3";
-const path = require("path");
 
 const db = new Database("database/chat.db");
 
